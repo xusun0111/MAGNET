@@ -33,7 +33,9 @@ class FDE_encoder(nn.Module):
         return self.out
 
     def FDE_loss(self):
-        return self.out.mean(dim=0).pow(2).mean()
+        mean_loss = self.out.mean(dim=0).pow(2).mean()
+        var_loss = -self.out.var(dim=0).mean()
+        return mean_loss + 0.1 * var_loss
 
 class GCN_encoder(nn.Module):
     def __init__(self, n_in, n_h, activator):
